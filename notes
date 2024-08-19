@@ -1,4 +1,5 @@
 docker run -p 5433:5432 -e POSTGRES_PASSWORD=topsecret postgres:alpine
+psql -U postgres -h localhost -p 5433
 DATABASE_URL="postgresql://postgres:topsecret@localhost:5433/postgres?schema=public"
 
 
