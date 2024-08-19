@@ -1,0 +1,59 @@
+docker run -p 5433:5432 -e POSTGRES_PASSWORD=topsecret postgres:alpine
+DATABASE_URL="postgresql://postgres:topsecret@localhost:5433/postgres?schema=public"
+
+
+https://www.prisma.io/docs/orm/prisma-migrate/getting-started
+npm init -y
+npm install typescript ts-node @types/node --save-dev
+npx tsc --init
+npm install prisma --save-dev
+npx prisma init --datasource-provider postgresql
+
+
+
+1. Create initial migration
+npx prisma migrate dev --create-only --name init
+npx prisma migrate dev
+npx prisma migrate deploy
+
+select * from _prisma_migrations ;
+
+
+2. add a record or two
+psql -U postgres -h localhost -p 5433
+insert into "Post" (title, content) values ('First Post!', 'With some great content');
+insert into "Post" (title, content) values ('Second Post!', 'Which is even better');
+select * from "Post";
+
+
+3. add category
+npx prisma migrate dev --create-only --name add_category
+npx prisma migrate dev
+
+update "Post" set category='Weather';
+
+
+4. change category -> topic
+# can't modify existing migrations!
+npx prisma migrate dev --create-only --name category_topic
+ALTER TABLE "Post" rename COLUMN "categoryy" to "topic";
+
+
+5. change structure - add categories table
+ALTER TABLE "Post" ADD COLUMN "topicId" INTEGER;
+
+CREATE TABLE "Topic" (
+    "id" SERIAL NOT NULL,
+    "title" TEXT NOT NULL,
+
+    CONSTRAINT "Topic_pkey" PRIMARY KEY ("id")
+);
+
+
+INSERT INTO "Topic" (title) SELECT DISTINCT "topic" FROM "Post";
+UPDATE "Post" SET "topicId" = (SELECT id FROM "Topic" WHERE "title" = "topic");
+
+ALTER TABLE "Post" DROP COLUMN "topic";
+
+
+select * from "Topic";
