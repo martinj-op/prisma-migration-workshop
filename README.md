@@ -68,6 +68,7 @@ INSERT INTO "Topic" (title) SELECT DISTINCT "topic" FROM "Post";
 UPDATE "Post" SET "topicId" = (SELECT id FROM "Topic" WHERE "title" = "topic");
 
 ALTER TABLE "Post" DROP COLUMN "topic";
+```
 
 ## Bonus: database migrations that have been applied are stored in this table 
 ```
