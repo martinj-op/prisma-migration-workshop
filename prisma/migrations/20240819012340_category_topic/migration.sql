@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE "Post" rename COLUMN "categoryy" to "topic";
+ALTER TABLE "Post" rename COLUMN "category" to "topic";
