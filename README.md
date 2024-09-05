@@ -19,8 +19,9 @@ Based on the official documentation https://www.prisma.io/docs/orm/prisma-migrat
 
 ## Migration scripts in this project
 ### 1. Create initial migration for the Post table
-\Create the migration script: `npx prisma migrate dev --create-only --name init`
-\Apply the migration script: `npx prisma migrate deploy`
+Create the migration script: `npx prisma migrate dev --create-only --name init`
+
+Apply the migration script: `npx prisma migrate deploy`
 
 And add some records:
 ```
